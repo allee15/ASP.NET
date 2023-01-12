@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ArticlesApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="~/ArticlesApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- se include summernote css -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container-fluid mx-4">
+                <a class="navbar-brand" asp-area="" asp-controller="Articles" asp-action="Index"><i class="bi bi-cup-hot-fill me-1"></i>Tweeterr</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                                <li class="nav-item mx-2">
+                                    <div class="dropdown">
+                                        <button class="btn btn-light border border-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Postari
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" asp-area="" asp-controller="Articles" asp-action="Index">Afisare articole</a>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Articles" asp-action="New">Adauga articol</a>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item mx-2">
+                                        <div class="dropdown">
+                                                <button class="btn btn-light border border-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Preferinte
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Index">Afisare categorii</a>
+                                                         <a class="dropdown-item" asp-area="" asp-controller="Bookmarks" asp-action="Index">Afisare colectii</a>
+                                            </div>
+                                        </div>
+                                    
+                                </li>
+
+                                <li class="nav-item mx-2">
+                                        <div class="dropdown">
+                                                    <button class="btn btn-light border border-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Comunitate
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Afisare utilizatori</a>
+                                                                 <a class="dropdown-item" asp-area="" asp-controller="Groups" asp-action="Index">Afisare grupuri</a>
+                                                                  
+                                                </div>
+                                            </div>
+                                    
+                                </li>
+                        }
+
+                        @if (User.IsInRole("Editor"))
+                        {
+
+                                    <li class="nav-item mx-2">
+                                        <div class="dropdown">
+                                                <button class="btn btn-light border border-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Postari
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" asp-area="" asp-controller="Articles" asp-action="Index">Afisare articole</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Articles" asp-action="New">Adauga articol</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                         <li class="nav-item mx-2">
+                                            <div class="dropdown">
+                                                        <button class="btn btn-light border border-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Comunitate
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                                    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Afisare utilizatori</a>
+                                                                     <a class="dropdown-item" asp-area="" asp-controller="Groups" asp-action="Index">Afisare grupuri</a>
+                                                    </div>
+                                                </div>
+
+                                    </li>
+
+                                    <li class="nav-item mx-2">
+                                            <a class="dropdown-item" asp-area="" asp-controller="Bookmarks" asp-action="Index">Afisare colectii</a>
+                                    </li>
+
+                        }
+
+                        @if (User.IsInRole("User"))
+                        {
+                                   <li class="nav-item mx-2">
+                                            <div class="dropdown">
+                                                    <button class="btn btn-light border border-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Postari
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" asp-area="" asp-controller="Articles" asp-action="Index">Afisare articole</a>
+                                                    <a class="dropdown-item" asp-area="" asp-controller="Articles" asp-action="New">Adauga articol</a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                             <li class="nav-item mx-2">
+                                                <div class="dropdown">
+                                                            <button class="btn btn-light border border-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Comunitate
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                                        <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Afisare utilizatori</a>
+                                                                         <a class="dropdown-item" asp-area="" asp-controller="Groups" asp-action="Index">Afisare grupuri</a>
+                                                        </div>
+                                                    </div>
+
+                                        </li>
+
+                                        <li class="nav-item mx-2">
+                                                <a class="dropdown-item" asp-area="" asp-controller="Bookmarks" asp-action="Index">Afisare colectii</a>
+                                        </li>
+
+                        }
+
+                    </ul>
+
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="bg-gray">
+        <div class="container min-vh-100">
+            <main role="main" class="py-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Tweeterr Inc. - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Summernote.js" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

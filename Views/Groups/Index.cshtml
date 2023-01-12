@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Afisare grupuri</h2>
+<br />
+@if (ViewBag.Message != null)
+{
+    <h2 class="alert-success p-3 rounded-3 text-center mb-5">@ViewBag.Message</h2>
+}
+
+<br />
+
+@* Motorul de cautare *@
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search topics or keywords" name="search"
+               value="@ViewBag.SearchString">
+        <button class="btn btn-outline-info" type="submit">Search</button>
+        <a class="btn btn-info text-white" href="/Groups/New">Adauga<i class="bi bi-plus ms-2 "></i></a>
+    </div>
+</form>
+
+@foreach (ArticlesApp.Models.Group group in ViewBag.Groups)
+{
+    <div class="card">
+
+        @Html.Partial("GroupInfo", group )
+        
+        <div class="d-inline-flex">
+            @using (Html.BeginForm(actionName: "Join", controllerName: "Groups", routeValues: new { IdGroup = group.Id },
+       method: FormMethod.Post))
+        {
+            if (@ViewBag.query == null)
+            {
+                <button class="btn btn-info text-white mx-2" type="submit">Alatura-te grupului</button>
+            }
+        }
+        <a class="btn btn-outline-info mx-2" href="/Groups/Show/@group.Id">Afisare grup</a>
+            </div>
+
+
+
+    </div>
+
+    <br />
+    <br />
+}
+
+
+
+
+
+@* Afisarea paginata a grupurilor *@
+
+<div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li class="page-item"> <a class="page-link" href="@ViewBag.PaginationBaseUrl=@i">@(i)</a> </li>
+            }
+
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=@(ViewBag.lastPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

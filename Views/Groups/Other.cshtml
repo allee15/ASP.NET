@@ -1,0 +1,61 @@
+﻿<div class="d-flex flex-wrap">
+    @if (ViewBag.OtherGroupsLength == 0)
+    {
+            <div class="w-100">Nu mai sunt alte grupuri disponibile</div>
+            <a href="/Groups/Index">Creeaza un nou grup</a>
+    }
+    else
+    {
+
+
+        foreach (var group in ViewBag.OtherGroups)
+        {
+                    <div class="card rounded-4" style="width: 30rem;">
+                        <div class="card-body">
+                            <h5 class="card-title", style="font-size: 20px;">@group.Name</h5>
+                            <p class="card-text" , style="font-size: 15px;">Descriere @group.Description</p>
+                            <div class="card-text" , style="font-size: 12px;">Categorie: @group.Category.Name</div>
+                            <div class="card-text" , style="font-size: 12px;">Creat la: @group.DateCreated</div>
+                    @if (ViewBag.IsAdmin)
+                    {
+                                    <form method="post" action="/Groups/JoinAdmin/@group.Id">
+                                    <button class="btn btn-primary mt-2">Join Group</button>
+                                    </form>
+                    }
+                    else
+                    {
+                        var ok = 0;
+                        @foreach (var gr in ViewBag.GroupsIn)
+                        {
+                            @if (gr.GroupId == group.Id)
+                            {
+                                                    <form method="post" action="/Groups/Cancel/@group.Id">
+                                                        <button class="btn btn-outline-danger" type="submit">Cancel</button>
+                                                    </form>
+                                ok = 1;
+
+                            }
+                            @*else
+                            {
+
+                                <form method="post" action="/Groups/Join/@group.Id">
+                                    <button class="btn btn-outline-success" type="submit">Request</button>
+                                </form>
+                            }*@
+
+
+                        }
+                        @if (ok == 0)
+                        {
+                                            <form method="post" action="/Groups/Join/@group.Id">
+                                                <button class="btn btn-outline-success" type="submit">Request</button>
+                                            </form>
+                        }
+                    }
+
+
+                        </div>
+                    </div>
+        }
+    }
+</div>

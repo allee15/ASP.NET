@@ -1,0 +1,51 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1 class="text-center mt-1">@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h5 class="text-center mt-2 text-secondary">Create a new account ^_^ </h5>
+            <hr class="my-4"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating my-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating my-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating my-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating my-3">
+                <input asp-for="Input.Nickname" class="form-control" autocomplete="new-name" aria-required="true" />
+                <label asp-for="Input.Nickname"></label>
+                <span asp-validation-for="Input.Nickname" class="text-danger"></span>
+            </div>
+            <div class="form-floating my-3 d-flex justify-content-around">
+                <div>
+                    <input type="radio" asp-for="Input.Privacy" value="public" />Public
+                </div>
+                <div>
+                    <input type="radio" asp-for="Input.Privacy" value="private" />Private
+                </div>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

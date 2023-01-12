@@ -1,0 +1,144 @@
+﻿@model ArticlesApp.Models.Group
+
+
+@* Afisarea unui grup impreuna cu categoria din care face
+
+*@
+@if (TempData["message"] != null)
+{
+    <div class="alert @TempData["messageType"]">
+        @TempData["message"]
+    </div>
+}
+<br />
+
+<div class="card">
+
+    @Html.Partial("GroupInfo", Model)
+
+    @*
+    daca este admin , editor si articolul ii apartine respectivului editor
+    *@
+
+    @if (ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent )
+    {
+        <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
+
+            <a class="btn btn-success" href="/Groups/Edit/@Model.Id">Editeaza grup</a>
+
+            <form method="post" action="/Groups/Delete/@Model.Id">
+
+                <button class="btn btn-danger" type="submit">Sterge grup</button>
+
+            </form>
+
+        </div>
+    }
+    
+
+
+<br />
+<br />
+
+
+@* Afisare comentarii impreuna cu butoanele de editare si stergere *@
+
+@foreach (var comm in Model.Comments)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+
+                <div>
+
+                    <p>@comm.Content</p>
+                    <small>@comm.Date</small>
+                    <strong><i class="bi bi-person"></i>@comm.User.UserName</strong>
+
+                </div>
+                <br>
+
+                @if (comm.UserId == ViewBag.UserCurent || User.IsInRole("Admin"))
+                {
+                    <div class="d-flex">
+
+                        <div>
+
+                            <a class="btn btn-outline-primary" href="/Comments/Edit/@comm.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
+
+                        </div>
+
+                        <div>
+
+                            <form method="post" action="/Comments/Delete/@comm.Id">
+
+                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                }
+
+
+                <br />
+
+            </div>
+
+            <div class="col-md-2"></div>
+
+        </div>
+
+    </div>
+}
+
+
+@* Afisarea formularului in care se poate adauga un comentariu *@
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+                <form method="post" action="/Groups/Show/@Model.Id">
+
+                    <div class="card-body">
+
+                        <input type="hidden" name="GroupId" value="@Model.Id" />
+
+                        <label>Continut comentariu</label>
+                        <br />
+
+                        <textarea class="form-control" name="Content"></textarea>
+
+                        @Html.ValidationMessage("Content", null, new { @class = "text-danger"})
+
+                        <br /><br />
+
+                        <button class="btn btn-success " type="submit">Adauga comentariul</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2"></div>
+
+    </div>
+
+</div>
+
+
+
+

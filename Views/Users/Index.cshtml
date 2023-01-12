@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Afisare utilizatori</h2>
+<br />
+@if (ViewBag.Message != null)
+{
+            <h2 class="alert-success p-3 rounded-3 text-center mb-5">@ViewBag.Message</h2>
+}
+
+<br />
+<div> <a class="btn btn-secondary text-white mb-3 w-100 h-25 btn btn-lg" href="/Users/Edit/@ViewBag.CurrentUserId"> Editeaza-ti profilul!</a> </div>
+
+@* Motorul de cautare *@
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search topics or keywords" name="search"
+               value="@ViewBag.SearchString">
+        <button class="btn btn-outline-info" type="submit">Search</button>
+    </div>
+</form>
+
+
+<table class="table bg-white">
+  <thead>
+    <tr>
+      <th scope="col">Nume utilizator</th>
+      <th scope="col" class="tright">Actiuni</th>
+    </tr>
+  </thead>
+  <tbody>
+        @foreach (ArticlesApp.Models.ApplicationUser user in ViewBag.UsersList)
+        {
+                    <tr>
+                        <td>
+                                <a class="text-decoration-none text-reset" href="/Users/Show/@user.Id">
+
+                @Html.Partial("UserInfo", user )
+                    </a>
+
+                    </td>
+                    <td>
+                            <div class="d-flex justify-content-end">
+                    @if (User.IsInRole("Admin") )
+                    {
+                        <div> <a class="btn btn-info text-white me-2" href="/Users/Edit/@user.Id"> Editare utilizator</a> </div>
+                    }
+
+
+
+
+
+                        @using (Html.BeginForm(actionName: "SendRequest", controllerName: "Users", method: FormMethod.Post, routeValues: new { receiverId = user.Id }))
+                {
+                    if (@ViewBag.query == null)
+                    {
+                                       <button class="btn btn-outline-info" type="submit">Adauga la prieteni</button>
+                    }
+                }
+                                    </div>
+
+                    </td>
+               </tr>
+        }
+  </tbody>
+</table>
+
+
+@* Afisarea paginata a userilor *@
+
+<div>
+    
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                        <li class="page-item"> <a class="page-link" href="@ViewBag.PaginationBaseUrl=@i">@(i)</a> </li>
+            }
+
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=@(ViewBag.lastPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+   
+</div>
+
+
+
+
